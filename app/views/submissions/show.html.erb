@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Assignment:</strong>
+  <%= @submission.assignment_id %>
+</p>
+
+<p>
+  <strong>Assignment title:</strong>
+  <%= @submission.assignment_title %>
+</p>
+
+<p>
+  <strong>Original:</strong>
+  <%= @submission.original_id %>
+</p>
+
+<p>
+  <strong>Original title:</strong>
+  <%= @submission.original_title %>
+</p>
+
+<p>
+  <strong>Grade:</strong>
+  <%= @submission.grade %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @submission.user_id %>
+</p>
+
+<p>
+  <strong>Translation:</strong>
+  <%= @submission.translation_id %>
+</p>
+
+<%= link_to 'Edit', edit_submission_path(@submission) %> |
+<%= link_to 'Back', submissions_path %>

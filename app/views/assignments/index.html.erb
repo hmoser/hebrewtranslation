@@ -1,0 +1,80 @@
+<div class='page-header'>
+  <h1>Assignments</h1>
+</div>
+
+<table class='table'>
+  <thead>
+      <tr>
+        <th>Assignment Title</th>
+        <%if current_user.admin? %>
+          <th>Translations</th>
+        <%end%>
+        <th>Due Date</th>
+        <%if current_user.admin? %>
+          <th>See Submissions</th>
+        <%else%>
+          <th>Work on Assignment</th>
+        <%end%>
+      </tr>
+    </thead>
+    <tbody>
+      <% @assignments.each do |assignment| %>
+        <tr>
+          <td>
+            <%= assignment.title %>
+          </td>
+          <td>
+            <%if current_user.admin? %>
+              <%Original.where(assignment_id: assignment.id).each do |translation| %>
+                <%= translation.upload %>
+              <%end%>
+            <%end%>
+          </td>
+          <td>
+            <%= assignment.due_date %>
+          </td>
+          <td>
+            <%if current_user.admin? %>
+              <%= link_to 'View Assignment Submissions', subs_path %>
+            <%else%>
+              <%= link_to 'Go to Assignment', assignment_path+"/"+current_user.id.to_s %>
+            <%end%>
+          </td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+  <%if current_user.admin? %>
+    <h2>Create New Assignment</h2>
+    <% @assignment=Assignment.new %>
+    <%= form_for(@assignment, :html=>{:class=>"form-horizontal"}) do |f| %>
+      <%=f.label :title %>
+      <%=f.text_field :title %>
+
+      <%=f.datetime_local_field :due_date %>
+
+      <%=f.label :original %>
+      <%=f.text_field :original.title %>
+      <%=f.file_field :original %>
+      <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
+
+      <%=f.label :original %>
+      <%=f.text_field :original.title %>
+      <%=f.file_field :original %>
+      <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
+
+      <%=f.label :original %>
+      <%=f.text_field :original.title %>
+      <%=f.file_field :original %>
+      <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
+
+      <%=f.label :original %>
+      <%=f.text_field :original.title %>
+      <%=f.file_field :original %>
+      <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
+    <%end%>
+  <%end%>
+
+
+
+

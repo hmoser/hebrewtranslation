@@ -1,0 +1,52 @@
+<%= form_for(submission) do |f| %>
+  <% if submission.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
+
+      <ul>
+      <% submission.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :assignment_id %>
+    <%= f.number_field :assignment_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :assignment_title %>
+    <%= f.text_field :assignment_title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :original_id %>
+    <%= f.number_field :original_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :original_title %>
+    <%= f.text_field :original_title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :grade %>
+    <%= f.number_field :grade %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_id %>
+    <%= f.number_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :translation_id %>
+    <%= f.number_field :translation_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

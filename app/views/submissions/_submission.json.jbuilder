@@ -1,0 +1,2 @@
+json.extract! submission, :id, :assignment_id, :assignment_title, :original_id, :original_title, :grade, :user_id, :translation_id, :created_at, :updated_at
+json.url submission_url(submission, format: :json)

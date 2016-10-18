@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @original.title %>
+</p>
+
+<p>
+  <strong>Upload:</strong>
+  <%= @original.upload %>
+</p>
+
+<p>
+  <strong>Assignment:</strong>
+  <%= @original.assignment_id %>
+</p>
+
+<%= link_to 'Edit', edit_original_path(@original) %> |
+<%= link_to 'Back', originals_path %>

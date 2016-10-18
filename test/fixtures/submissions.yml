@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  assignment_id: 1
+  assignment_title: MyString
+  original_id: 1
+  original_title: MyString
+  grade: 1
+  user_id: 1
+  translation_id: 1
+
+two:
+  assignment_id: 1
+  assignment_title: MyString
+  original_id: 1
+  original_title: MyString
+  grade: 1
+  user_id: 1
+  translation_id: 1
