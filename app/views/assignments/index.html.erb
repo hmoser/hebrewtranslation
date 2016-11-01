@@ -54,23 +54,37 @@
       <%=f.datetime_local_field :due_date %>
 
       <%=f.label :original %>
-      <%=f.text_field :original.title %>
-      <%=f.file_field :original %>
+      <%= fields_for @assignment.original do |original_form| %>
+        <%= original_form.text_field :title %>
+        <%= original_form.file_field :original %>
+      <%end%>
       <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
 
       <%=f.label :original %>
-      <%=f.text_field :original.title %>
-      <%=f.file_field :original %>
+      <%= fields_for @assignment.original do |original_form| %>
+        <%= original_form.text_field :title %>
+        <%= original_form.file_field :original %>
+      <%end%>
+      <%#=f.text_field (:original, :title) %>
+      <%#=f.file_field :original %>
       <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
 
       <%=f.label :original %>
-      <%=f.text_field :original.title %>
-      <%=f.file_field :original %>
+      <%= fields_for @assignment.original do |original_form| %>
+        <%= original_form.text_field :title %>
+        <%= original_form.file_field :original %>
+      <%end%>
+      <%#=f.text_field (:original, :title) %>
+      <%#=f.file_field :original %>
       <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
 
       <%=f.label :original %>
-      <%=f.text_field :original.title %>
-      <%=f.file_field :original %>
+      <%= fields_for @assignment.original do |original_form| %>
+        <%= original_form.text_field :title %>
+        <%= original_form.file_field :original %>
+      <%end%>
+      <%#=f.text_field (:original, :title) %>
+      <%#=f.file_field :original %>
       <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
     <%end%>
   <%end%>
