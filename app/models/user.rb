@@ -7,5 +7,5 @@ class User < ApplicationRecord
 	has_many :questions
 	has_many :replies
 	has_many :translations
-	belongs_to :group
+	has_many :groups
 end

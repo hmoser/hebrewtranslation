@@ -26,7 +26,7 @@
           <td>
             <%if current_user.admin? %>
               <%Original.where(assignment_id: assignment.id).each do |translation| %>
-                <%= translation.upload %>
+                  <%= image_tag(translation.upload, :class=>'thumbnail', :style=>'width:100%')%>             
               <%end%>
             <%end%>
           </td>
@@ -35,7 +35,7 @@
           </td>
           <td>
             <%if current_user.admin? %>
-              <%= link_to 'View Assignment Submissions', subs_path %>
+              <%= link_to 'View Assignment Submissions', submissions_path %>
             <%else%>
               <%= link_to 'Go to Assignment', assignment_path+"/"+current_user.id.to_s %>
             <%end%>
@@ -47,45 +47,29 @@
   <%if current_user.admin? %>
     <h2>Create New Assignment</h2>
     <% @assignment=Assignment.new %>
+    <% @assignment.originals.build %>
+    <% @assignment.originals.build %>
+    <% @assignment.originals.build %>
+    <% @assignment.originals.build %>
     <%= form_for(@assignment, :html=>{:class=>"form-horizontal"}) do |f| %>
       <%=f.label :title %>
       <%=f.text_field :title %>
 
       <%=f.datetime_local_field :due_date %>
 
-      <%=f.label :original %>
-      <%= fields_for @assignment.original do |original_form| %>
+      <%= f.fields_for :originals do |original_form| %>
+        <%= original_form.hidden_field :assignment_id, value: @assignment.id %>
+        <%= original_form.label :originals, 'Translation Title' %>
         <%= original_form.text_field :title %>
-        <%= original_form.file_field :original %>
+        <%= original_form.file_field :upload %>
+        <br>
+        <%= original_form.radio_button :language, 'Hebrew to English' %>Hebrew to English
+        <br>
+        <%= original_form.radio_button :language, 'English to Hebrew' %>English to Hebrew
+        <br>
       <%end%>
-      <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
 
-      <%=f.label :original %>
-      <%= fields_for @assignment.original do |original_form| %>
-        <%= original_form.text_field :title %>
-        <%= original_form.file_field :original %>
-      <%end%>
-      <%#=f.text_field (:original, :title) %>
-      <%#=f.file_field :original %>
-      <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
-
-      <%=f.label :original %>
-      <%= fields_for @assignment.original do |original_form| %>
-        <%= original_form.text_field :title %>
-        <%= original_form.file_field :original %>
-      <%end%>
-      <%#=f.text_field (:original, :title) %>
-      <%#=f.file_field :original %>
-      <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
-
-      <%=f.label :original %>
-      <%= fields_for @assignment.original do |original_form| %>
-        <%= original_form.text_field :title %>
-        <%= original_form.file_field :original %>
-      <%end%>
-      <%#=f.text_field (:original, :title) %>
-      <%#=f.file_field :original %>
-      <%#=f.select (:original.language, ['Hebrew to English', 'English to Hebrew']) %>
+      <%= f.submit %>
     <%end%>
   <%end%>
 

@@ -1,3 +1,3 @@
 class Ranking < ApplicationRecord
-	belongs_to :translation
+	belongs_to :translation, optional: true
 end

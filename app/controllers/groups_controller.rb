@@ -69,6 +69,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the spooky internet, only allow the white list through.
     def group_params
-      params.require(:group).permit()
+      params.require(:group).permit(:assignment_id)
     end
 end

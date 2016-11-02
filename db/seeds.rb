@@ -6,7 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Group.create()
 User.create(name: 'Hannah', email: 'hmoser@brandeis.edu', password: 'maria!', admin: true)
 User.create(name: 'Maria', email: 'maria@brandeis.edu', password: 'hannah!', admin: false)
 User.create(name: 'Zak', email: 'zak@brandeis.edu', password: 'rick!!', admin: false)
 User.create(name: 'Rick', email: 'rick@brandeis.edu', password: 'zak!!!', admin: false)
+Assignment.create()
