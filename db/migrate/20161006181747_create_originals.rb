@@ -5,6 +5,7 @@ class CreateOriginals < ActiveRecord::Migration[5.0]
       t.string :upload
       t.integer :assignment_id
       t.string :language
+      t.integer :group_id
 
       t.timestamps
     end

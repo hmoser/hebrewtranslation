@@ -5,6 +5,7 @@ class TranslationsController < ApplicationController
   # GET /translations.json
   def index
     @translations = Translation.all
+    @original = 
   end
 
   # GET /translations/1
