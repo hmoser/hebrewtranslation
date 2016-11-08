@@ -34,8 +34,12 @@
                       <object data="<%= translation.stuff %>" type="application/pdf" width="700px" height="700px">
                           <embed src="<%= translation.stuff %>"> </embed>
                       </object>
-                    <%end%>  
-                  <%end%>       
+                    <%else%>
+                      <audio controls>
+                        <source src="<%= translation.stuff %>" type="<%= MimeMagic.by_magic(File.open(translation.stuff.current_path)).type %>">
+                      </audio>  
+                    <%end%>       
+                  <%end%>
               <%end%>
             <%end%>
           </td>
