@@ -26,6 +26,7 @@
           <td>
             <%if current_user.admin? %>
               <%Original.where(assignment_id: assignment.id).each do |translation| %>
+                  <%= translation.title %>
                   <%= image_tag(translation.stuff)%>             
               <%end%>
             <%end%>
@@ -62,7 +63,7 @@
         <%= original_form.label :originals, 'Translation Title' %>
         <%= original_form.text_field :title %>
         <%= original_form.file_field :stuff %>
-        <%= original_form.hidden_field :avatar_cache %>
+
         <br>
         <%= original_form.radio_button :language, 'Hebrew to English' %>Hebrew to English
         <br>

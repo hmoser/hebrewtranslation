@@ -5,7 +5,8 @@ class TranslationsController < ApplicationController
   # GET /translations.json
   def index
     @translations = Translation.all
-    @original = 
+    
+    # @original = student's group for the current assignment dot original
   end
 
   # GET /translations/1

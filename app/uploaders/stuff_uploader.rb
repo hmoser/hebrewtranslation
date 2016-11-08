@@ -4,7 +4,8 @@ class StuffUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick
+    process :resize_to_fit => [150, 150]
 
   # Choose what kind of storage to use for this uploader:
   storage :file
@@ -14,10 +15,6 @@ class StuffUploader < CarrierWave::Uploader::Base
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     'public/my/upload/directory'
-  end
-
-  def cache_dir
-    '/tmp/projectname-cache'
   end
 
 
