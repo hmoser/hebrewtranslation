@@ -47,7 +47,6 @@
           <td>
             <%= assignment.due_date %>
           </td>
-          <td>
             <%if current_user.admin? %>
               <td>
               <%= link_to 'Create Groups', {:controller => "groups", :action => "index", :assignment_id => assignment.id }%>
@@ -58,7 +57,6 @@
             <%else%>
               <%= link_to 'Go to Assignment', assignment_path+"/"+current_user.id.to_s %>
             <%end%>
-          </td>
         </tr>
       <%end%>
     </tbody>

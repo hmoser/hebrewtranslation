@@ -9,6 +9,31 @@
   </head>
 
   <body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+	    <div class="container">
+	      <div class="navbar-header">
+	          <%= link_to "Hebrew Translation", assignments_path, class:'navbar-brand' %>
+	      </div>
+	      <div id="navbar" class="navbar-collapse collapse">      
+	      	<ul class="nav navbar-nav">
+	        <% if user_signed_in? %>
+	      		<li><%= link_to "Assignments", assignments_path %></li>
+	      		<% if !current_user.admin? %>
+
+	      		<%end%>
+	      	<%end%>
+      		</ul>
+
+      		<ul class="nav navbar-nav navbar-right">
+	        	<% if user_signed_in? %>
+	        		<li>
+	          			<%= link_to('Sign Out', destroy_user_session_path, :method => :delete) %>
+	        		</li>
+	        	<% end %>
+	      	</ul>
+	      </div><!-- /.navbar-collapse -->
+	  	</div><!-- /.container-fluid -->
+	</nav>
     <%= yield %>
   </body>
 </html>
