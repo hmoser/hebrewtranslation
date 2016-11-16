@@ -4,7 +4,14 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    @assignment = Assignment.find(params[:assignment_id])
+    @groups = Group.where(assignment_id: @assignment.id)
+    s = Array.new
+    @groups.each do |g|
+      s.push(g.users).flatten!
+    end
+    @students = User.where(admin: false)
+    @students = @students.reject{|student| s.include?(student)}
   end
 
   # GET /groups/1
@@ -28,7 +35,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
+        format.html { redirect_to :back, notice: 'Group was successfully created.' }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -69,6 +76,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the spooky internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:assignment_id)
+      params.require(:group).permit(:assignment_id, :user_ids => [])
     end
 end
