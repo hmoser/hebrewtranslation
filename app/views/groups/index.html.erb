@@ -16,9 +16,13 @@
                          @group.users.include?(user),
                          name: 'group[user_ids][]' %>
       <%= user.name %>
-      <% @group.users %>
       <br>
     <% end %>
+
+    <%@originals.each do |original| %>
+      <%= radio_button_tag(:original, original.id) %>
+      <%= label_tag(:original, original.title) %>
+    <%end%>
     <%=f.submit%>
   <%end%>
 <%end%>

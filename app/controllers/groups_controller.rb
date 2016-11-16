@@ -12,6 +12,8 @@ class GroupsController < ApplicationController
     end
     @students = User.where(admin: false)
     @students = @students.reject{|student| s.include?(student)}
+
+    @originals = Original.where(assignment_id: @assignment.id, group_id: nil)
   end
 
   # GET /groups/1
@@ -32,7 +34,7 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     @group = Group.new(group_params)
-
+    @group.originals = Original.where(id: params[:original])
     respond_to do |format|
       if @group.save
         format.html { redirect_to :back, notice: 'Group was successfully created.' }
@@ -76,6 +78,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the spooky internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:assignment_id, :user_ids => [])
+      params.require(:group).permit(:assignment_id, :user_ids => [], :originals => [])
     end
 end
