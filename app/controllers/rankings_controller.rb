@@ -25,10 +25,9 @@ class RankingsController < ApplicationController
   # POST /rankings.json
   def create
     @ranking = Ranking.new(ranking_params)
-
     respond_to do |format|
       if @ranking.save
-        format.html { redirect_to @ranking, notice: 'Ranking was successfully created.' }
+        format.html { redirect_to :back, notice: 'Ranking was successfully created.' }
         format.json { render :show, status: :created, location: @ranking }
       else
         format.html { render :new }
@@ -69,6 +68,6 @@ class RankingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ranking_params
-      params.require(:ranking).permit(:translation_id, :rank)
+      params.require(:ranking).permit(:translation_id, :rank, :user_id)
     end
 end

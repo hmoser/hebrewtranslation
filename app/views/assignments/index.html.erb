@@ -49,13 +49,19 @@
           </td>
             <%if current_user.admin? %>
               <td>
-              <%= link_to 'Create Groups', {:controller => "groups", :action => "index", :assignment_id => assignment.id }%>
+              <%= link_to 'Create Groups', {:controller => "groups", :action => "index", :assignment_id => assignment.id}%>
               </td>
               <td>
               <%= link_to 'View Assignment Submissions', submissions_path %>
               </td>
             <%else%>
-              <%= link_to 'Go to Assignment', assignment_path+"/"+current_user.id.to_s %>
+              <td>
+              <% if !Translation.where(user_id: current_user.id, assignment_id: assignment.id).exists?%>
+                <%= link_to 'Go to Assignment', {:controller => "translations", :action => "index", :assignment_id => assignment.id}%>
+              <%else%>
+                <%=link_to 'Go to Assignment', translation_path(Translation.where(user_id: current_user.id, assignment_id: assignment.id).first.id)%>
+              <%end%>
+              </td>
             <%end%>
         </tr>
       <%end%>

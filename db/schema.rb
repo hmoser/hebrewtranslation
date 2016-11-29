@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20161115213607) do
   create_table "rankings", force: :cascade do |t|
     t.integer  "translation_id"
     t.integer  "rank"
+    t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
@@ -91,8 +92,9 @@ ActiveRecord::Schema.define(version: 20161115213607) do
     t.integer  "user_id"
     t.integer  "original_id"
     t.text     "translation"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "assignment_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "users", force: :cascade do |t|

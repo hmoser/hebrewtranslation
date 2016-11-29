@@ -4,14 +4,38 @@ class TranslationsController < ApplicationController
   # GET /translations
   # GET /translations.json
   def index
+    @translation = Translation.new
     @translations = Translation.all
-    
-    # @original = student's group for the current assignment dot original
+    @assignment = Assignment.find(params[:assignment_id])
+    Group.where(assignment_id: @assignment.id).each do |group|
+      if group.users.include?(current_user)
+        @group = group
+      end
+    end
+    @original = Original.where(group_id: @group.id).first    
   end
 
   # GET /translations/1
   # GET /translations/1.json
   def show
+    @translation = Translation.find(params[:id])
+    @original = Original.find(@translation.original_id)
+    @assignment = Assignment.find(@original.assignment_id)
+    @group = Group.find(@original.group_id)
+    @groups = Group.where(assignment_id: @assignment.id)
+    if(@group == @groups.last)
+      @neworiginal = @groups.first.originals.first 
+    else
+      @neworiginal = Group.find(@original.group_id + 1).originals.first
+    end
+
+    @translations = Translation.where(original_id: @neworiginal.id)
+    t = Array.new
+    @translations.each do |x|
+      t.push(x.rankings).flatten!
+    end
+    @translations = @translations.reject{|translation| t.include?(Ranking.where(translation_id: translation.id, user_id: current_user.id).first)}
+    @translation = @translations.first
   end
 
   # GET /translations/new
@@ -30,7 +54,7 @@ class TranslationsController < ApplicationController
 
     respond_to do |format|
       if @translation.save
-        format.html { redirect_to @translation, notice: 'Translation was successfully created.' }
+        format.html { redirect_to action: "show", id: @translation.id, assignment_id: params[:assignment_id], original_id: params[:original_id]}
         format.json { render :show, status: :created, location: @translation }
       else
         format.html { render :new }
@@ -71,6 +95,6 @@ class TranslationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def translation_params
-      params.require(:translation).permit(:user_id, :original_id, :translation)
+      params.require(:translation).permit(:user_id, :original_id, :translation, :assignment_id)
     end
 end

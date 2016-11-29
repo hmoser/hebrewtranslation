@@ -1,19 +1,36 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>User:</strong>
-  <%= @translation.user_id %>
-</p>
-
-<p>
-  <strong>Original:</strong>
-  <%= @translation.original_id %>
-</p>
-
-<p>
-  <strong>Translation:</strong>
-  <%= @translation.translation %>
-</p>
-
-<%= link_to 'Edit', edit_translation_path(@translation) %> |
-<%= link_to 'Back', translations_path %>
+<% if !@translation.nil?%>
+	<% if !@neworiginal.nil? %>
+		<h1><%=@neworiginal.title%></h1>
+	  	<% if @neworiginal.stuff.file != nil %>
+			<%if(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type[0..4] == "image") %>
+	  			<%= image_tag(@neworiginal.stuff)%>  
+			<%elsif(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type == "application/pdf") %>
+	  			<object data="<%= @neworiginal.stuff %>" type="application/pdf" width="700px" height="700px">
+	      			<embed src="<%= @neworiginal.stuff %>"> </embed>
+	  			</object>
+			<%else%>
+	  			<audio controls>
+	    			<source src="<%= @neworiginal.stuff %>" type="<%= MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type %>">
+	  			</audio>  
+			<%end%>       
+		<%end%>
+		<%=@translation.translation%>
+		<%=form_for Ranking.new do |f|%>
+			<%= f.radio_button :rank, 1 %>Student is able to translate basic vocabulary and/or is inaccurate.
+			<br>
+			<%= f.radio_button :rank, 2 %>Student has trouble translating some basic vocabulary and/or is lacking in accuracy.
+			<br> 
+			<%= f.radio_button :rank, 3 %>Student is able to translate basic vocabulary
+			<br>
+			<%= f.radio_button :rank, 4 %>Student is able to translate basic vocabulary with a great deal of accuracy
+			<br>
+			<%= f.radio_button :rank, 5 %>Student is able to translate most, if not all of the vocabulary, and is able to use context clues and word parts to make educated guesses to previously unseen vocabulary.
+			<%=f.hidden_field :translation_id, value: @translation.id%>
+			<%=f.hidden_field :user_id, value: @current_user.id%>
+			<%=f.submit%>
+		<%end%>
+	<%end%>
+<%else%>
+	<h1>There are no rankings to complete at this time</h1>
+	<%=link_to 'Go Home', assignments_path%>
+<%end%>
