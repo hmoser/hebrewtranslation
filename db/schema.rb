@@ -78,14 +78,12 @@ ActiveRecord::Schema.define(version: 20161115213607) do
 
   create_table "submissions", force: :cascade do |t|
     t.integer  "assignment_id"
-    t.string   "assignment_title"
     t.integer  "original_id"
-    t.string   "original_title"
     t.integer  "grade"
     t.integer  "user_id"
     t.integer  "translation_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "translations", force: :cascade do |t|

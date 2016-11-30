@@ -35,7 +35,7 @@ class TranslationsController < ApplicationController
       t.push(x.rankings).flatten!
     end
     @translations = @translations.reject{|translation| t.include?(Ranking.where(translation_id: translation.id, user_id: current_user.id).first)}
-    @translation = @translations.first
+    @newtranslation = @translations.first
   end
 
   # GET /translations/new
