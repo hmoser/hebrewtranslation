@@ -27,20 +27,7 @@
           <td>
             <%if current_user.admin? %>
               <%Original.where(assignment_id: assignment.id).each do |translation| %>
-                  <%= translation.title %>
-                  <% if translation.stuff.file != nil %>
-                    <%if(MimeMagic.by_magic(File.open(translation.stuff.current_path)).type[0..4] == "image") %>
-                      <%= image_tag(translation.stuff)%>  
-                    <%elsif(MimeMagic.by_magic(File.open(translation.stuff.current_path)).type == "application/pdf") %>
-                      <object data="<%= translation.stuff %>" type="application/pdf" width="700px" height="700px">
-                          <embed src="<%= translation.stuff %>"> </embed>
-                      </object>
-                    <%else%>
-                      <audio controls>
-                        <source src="<%= translation.stuff %>" type="<%= MimeMagic.by_magic(File.open(translation.stuff.current_path)).type %>">
-                      </audio>  
-                    <%end%>       
-                  <%end%>
+                  <%= translation.title %>  
               <%end%>
             <%end%>
           </td>
