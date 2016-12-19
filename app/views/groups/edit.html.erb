@@ -4,17 +4,15 @@
 	<%@groups.each do |group|%>
 		<div class='form-group'>
 			<% group.users.each do |student| %>
-				<%= label_tag student.name, student.id, class: 'control-label'%>
+				<%= label_tag student.id, student.name, class: 'control-label'%>
 				<%= select_tag 'group_id', options_for_select(@groups.collect{ |g| [g.title, g.id]})%> 
 			<%end%>
-			<%= label_tag @originals.where(group_id: group.id).first.title, @originals.where(group_id: group.id).first.id, class: 'control-label'%>
-			<%fields_for @originals.where(group_id: group.id).first do |o| %>
-				<%= select_tag 'group_id', options_for_select(@groups.collect{ |g| [g.title, g.id]}) %>
-			<%end%>
+			<%= label_tag @originals.where(group_id: group.id).first.id, @originals.where(group_id: group.id).first.title, class: 'control-label'%>
+			<%= select_tag 'group_id', options_for_select(@groups.collect{ |g| [g.title, g.id]})%>
 		</div>
-		<div class='form-group'>
-	    	<%= submit_tag "Save", class:'btn btn-primary' %>
-	    </div>
 	<%end%>
+	<div class='form-group'>
+	    <%= submit_tag "Save", class:'btn btn-primary' %>
+	</div>
 <%end%>
 
