@@ -4,7 +4,8 @@ class SubmissionsController < ApplicationController
   # GET /submissions
   # GET /submissions.json
   def index
-    @submissions = Translation.all
+    @assignment = Assignment.find(params[:assignment_id])
+    @submissions = Translation.where(assignment_id: @assignment.id)
   end
 
   # GET /submissions/1
@@ -28,7 +29,7 @@ class SubmissionsController < ApplicationController
 
     respond_to do |format|
       if @submission.save
-        format.html { redirect_to action: "index", notice: 'Submission was successfully created.' }
+        format.html { redirect_to action: "index", assignment_id: @submission.assignment_id}
         format.json { render :show, status: :created, location: @submission }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class SubmissionsController < ApplicationController
   def update
     respond_to do |format|
       if @submission.update(submission_params)
-        format.html { redirect_to action: "index", notice: 'Submission was successfully updated.' }
+        format.html { redirect_to action: "index", assignment_id: @submission.assignment_id }
         format.json { render :show, status: :ok, location: @submission }
       else
         format.html { render :edit }
@@ -59,6 +60,11 @@ class SubmissionsController < ApplicationController
       format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def gradebook
+    @assignments = Assignment.all
+    @students = User.all.where(admin: false)
   end
 
   private

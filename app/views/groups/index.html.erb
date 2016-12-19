@@ -1,29 +1,50 @@
 <%if @students.empty?%>
-  <h1>All students have been assigned to a group for this assignment.</h1>
-  <%=link_to 'Go to Homepage', assignments_path%>
+  <center>
+    <h2>All students are  assigned a group for this assignment</h2>
+      <%=link_to 'Edit Groups', {:controller => "groups", :action => "edit", :id => @assignment.id}, class: "btn btn-primary"%>
+      <%=link_to 'Go Home', root_path, class: "btn btn-primary"%>
+  </center>
 <%else%>
   <div class='page-header'>
     <h1>Create Groups</h1>
   </div>
 
-  Group <%=Group.where(assignment_id: @assignment.id).count + 1%>
+  <h2>Group <%=Group.where(assignment_id: @assignment.id).count + 1%></h2>
   <%@group = Group.new%>
-  <%= form_for(@group) do |f| %>
-    <%=f.hidden_field :assignment_id, value: @assignment.id%>
-    <% @students.each do |user| %>
-      <%= check_box_tag :user_ids,
-                         user.id,
-                         @group.users.include?(user),
-                         name: 'group[user_ids][]' %>
-      <%= user.name %>
-      <br>
-    <% end %>
+    <%= form_for(@group) do |f| %>
+      <%=f.hidden_field :assignment_id, value: @assignment.id%>
+      <%=f.hidden_field :title, value: "Group " + (Group.where(assignment_id: @assignment.id).count + 1).to_s%>
+      <div class='col-md-4'>
+        <% @students.each do |user| %>
+        <div class="checkbox">
+          <%= check_box_tag :user_ids,
+                             user.id,
+                             @group.users.include?(user),
+                             name: 'group[user_ids][]' %>
+          <%= user.name %>
+        </div>
+        <%end%>
+      </div>
 
-    <%@originals.each do |original| %>
-      <%= radio_button_tag(:original, original.id) %>
-      <%= label_tag(:original, original.title) %>
-    <%end%>
-    <%=f.submit%>
+    <div class='col-md-4'>
+      <%@originals.each do |original| %>
+          <%= radio_button_tag(:original, original.id) %>
+          <%= label_tag(:original, original.title) %>
+      <%end%>
+      <br><br><br>
+      <%=f.submit class:'btn btn-primary'%>
+    </div>
+
+    <div class='col-md-4'>
+      <h2>Created Groups</h2>
+      <%@groups.each do |group| %>
+        <h4><%=group.title%>-<%=group.originals.first.title%></h4>
+        <%group.users.each do |s| %>
+          <%=s.name%>
+          <br>
+        <%end%>
+        <br>
+      <%end%>
   <%end%>
 <%end%>
 

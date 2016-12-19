@@ -19,6 +19,7 @@ class AssignmentsController < ApplicationController
 
   # GET /assignments/1/edit
   def edit
+    @assignment = Assignment.find(params[:id])
   end
 
   # POST /assignments
@@ -40,14 +41,12 @@ class AssignmentsController < ApplicationController
   # PATCH/PUT /assignments/1
   # PATCH/PUT /assignments/1.json
   def update
-    respond_to do |format|
-      if @assignment.update(assignment_params)
-        format.html { redirect_to @assignment, notice: 'Assignment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @assignment }
-      else
-        format.html { render :edit }
-        format.json { render json: @assignment.errors, status: :unprocessable_entity }
-      end
+    @assignment = Assignment.find(params[:id])
+    if @assignment.update_attributes(assignment_params)
+      flash[:success] = "Assignment updated"
+      redirect_to root_path
+    else
+      render 'edit'
     end
   end
 
@@ -69,6 +68,6 @@ class AssignmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def assignment_params
-      params.require(:assignment).permit(:due_date, :title, :group_id, originals_attributes: [:title, :upload, :assignment_id, :language, :group_id, :stuff])
+      params.require(:assignment).permit(:due_date, :title, :group_id, originals_attributes: [:id, :title, :upload, :assignment_id, :language, :group_id, :stuff])
     end
 end

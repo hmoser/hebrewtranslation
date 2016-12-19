@@ -1,0 +1,44 @@
+<div class='page-header'>
+  <h1>Gradebook</h1>
+</div>
+
+<table class='table'>
+	<thead>
+  		<tr>
+	  		<th>Student Name</th>
+	        <% @assignments.each do |assignment| %>
+	        	<th><%=assignment.title%> Translation Grade</th>
+	        	<th><%=assignment.title%> Ranking Gap</th>
+	        <%end%>
+	        <th>Average Traslation Grade</th>
+	        <th>Average Ranking Gap</th>
+	    </tr>
+	</thead>
+	<tbody>
+		<% @students.each do |student| %>
+			<tr>
+				<td>
+					<%= student.name%>
+				</td>
+				<% @assignments.each do |assignment| %>
+					<td>
+						<%if Submission.exists?(assignment_id: assignment.id, user_id: student.id)%>
+							<%= Submission.where(assignment_id: assignment.id, user_id: student.id).first.grade %>
+						<%else%>
+							N/A
+						<%end%>
+					</td>
+					<td>
+						<%= avgRankGap(assignment.id, student.id) %>
+					</td>
+				<%end%>
+				<td>
+					<%= avgTranslation(student.id) %>
+				</td>
+				<td>
+					<%= avgAvgRankGap(student.id) %>
+				</td>
+			</tr>
+		<%end%>
+	</tbody>
+</table>

@@ -12,7 +12,9 @@ class TranslationsController < ApplicationController
         @group = group
       end
     end
-    @original = Original.where(group_id: @group.id).first    
+    if !@group.nil?
+      @original = Original.where(group_id: @group.id).first    
+    end
   end
 
   # GET /translations/1

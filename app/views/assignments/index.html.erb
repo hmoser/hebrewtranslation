@@ -13,6 +13,7 @@
         <%if current_user.admin? %>
           <th>Create Groups</th>
           <th>See Submissions</th>
+          <th>Edit</th>
         <%else%>
           <th>Work on Assignment</th>
         <%end%>
@@ -24,31 +25,36 @@
           <td>
             <%= assignment.title %>
           </td>
-          <td>
-            <%if current_user.admin? %>
-              <%Original.where(assignment_id: assignment.id).each do |translation| %>
+          <%if current_user.admin? %>
+              <td>
+                <%Original.where(assignment_id: assignment.id).each do |translation| %>
                   <%= translation.title %>  
-              <%end%>
-            <%end%>
-          </td>
+                <%end%>
+            </td>
+          <%end%>
           <td>
             <%= assignment.due_date %>
           </td>
             <%if current_user.admin? %>
               <td>
-              <%= link_to 'Create Groups', {:controller => "groups", :action => "index", :assignment_id => assignment.id}%>
+                <%= link_to 'Create/Edit Groups', {:controller => "groups", :action => "index", :assignment_id => assignment.id}%>
               </td>
               <td>
-              <%= link_to 'View Assignment Submissions', submissions_path %>
+                <%= link_to 'View Assignment Submissions', {:controller => "submissions", :action => "index", :assignment_id => assignment.id} %>
+              </td>
+              <td>
+                <%= link_to 'Edit', edit_assignment_path(assignment) %>
               </td>
             <%else%>
-              <td>
               <% if !Translation.where(user_id: current_user.id, assignment_id: assignment.id).exists?%>
-                <%= link_to 'Go to Assignment', {:controller => "translations", :action => "index", :assignment_id => assignment.id}%>
+                <td>
+                  <%= link_to 'Go to Assignment', {:controller => "translations", :action => "index", :assignment_id => assignment.id}%>
+                </td>
               <%else%>
-                <%=link_to 'Go to Assignment', translation_path(Translation.where(user_id: current_user.id, assignment_id: assignment.id).first.id)%>
+                <td>
+                  <%=link_to 'Go to Assignment', translation_path(Translation.where(user_id: current_user.id, assignment_id: assignment.id).first.id)%>
+                </td>
               <%end%>
-              </td>
             <%end%>
         </tr>
       <%end%>
@@ -67,23 +73,29 @@
 
       <%=f.datetime_local_field :due_date %>
 
+      <br><br><br>
+
+      
       <%= f.fields_for :originals do |original_form| %>
-        <%= original_form.hidden_field :assignment_id, value: @assignment.id %>
-        <%= original_form.label :originals, 'Translation Title' %>
-        <%= original_form.text_field :title %>
-        <%= original_form.file_field :stuff %>
+      <div class='col-md-3'>
+          <%= original_form.hidden_field :assignment_id, value: @assignment.id %>
+          <%= original_form.label :originals, 'Translation Title' %>
+          <%= original_form.text_field :title %>
+          <%= original_form.file_field :stuff %>
 
-        <br>
-        <%= original_form.radio_button :language, 'Hebrew to English' %>Hebrew to English
-        <br>
-        <%= original_form.radio_button :language, 'English to Hebrew' %>English to Hebrew
-        <br>
-      <%end%>
-
-      <%= f.submit %>
+          <br>
+          <div class="radio">
+            <%= original_form.radio_button :language, 'Hebrew to English' %>Hebrew to English
+          </div>
+          <br>
+          <div class="radio">
+            <%= original_form.radio_button :language, 'English to Hebrew' %>English to Hebrew
+          </div>
+          <br>
+          </div>
+        <%end%>
+        <div style='padding: 150px 0px'>
+          <%= f.submit class:'btn btn-primary'%>
+        </div>
     <%end%>
   <%end%>
-
-
-
-

@@ -1,17 +1,12 @@
 <%= form_for(group) do |f| %>
-  <% if group.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(group.errors.count, "error") %> prohibited this group from being saved:</h2>
-
-      <ul>
-      <% group.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+  <% group.users.each do |student| %>
+    <label class='control-label'><%=student.name%></label>
+    <%=f.collection_select :group_id, @groups, :id, :title, {:selected => group.id} %>
+  <%end%>
+  <br>
+  <label class='control-label'><%=@originals.where(group_id: group.id).first.title%></label>
+  <% @original = @originals.where(group_id: group.id).first %>
+  <%= fields_for @original do |o| %>
+    <%=o.collection_select :group_id, @groups, :id, :title, {:selected => group.id} %>
+  <%end%>
+<%end%>

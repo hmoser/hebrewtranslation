@@ -1,73 +1,113 @@
 <% if !current_user.admin?%>
 	<% if !@newtranslation.nil?%>
 		<% if !@neworiginal.nil? %>
-			<h1><%=@neworiginal.title%></h1>
-		  	<% if @neworiginal.stuff.file != nil %>
-				<%if(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type[0..4] == "image") %>
-		  			<%= image_tag(@neworiginal.stuff)%>  
-				<%elsif(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type == "application/pdf") %>
-		  			<object data="<%= @neworiginal.stuff %>" type="application/pdf" width="700px" height="700px">
-		      			<embed src="<%= @neworiginal.stuff %>"> </embed>
-		  			</object>
-				<%else%>
-		  			<audio controls>
-		    			<source src="<%= @neworiginal.stuff %>" type="<%= MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type %>">
-		  			</audio>  
-				<%end%>       
-			<%end%>
-			<%=@newtranslation.translation%>
-			<%=form_for Ranking.new do |f|%>
-				<%= f.radio_button :rank, 1 %>Student is able to translate basic vocabulary and/or is inaccurate.
-				<br>
-				<%= f.radio_button :rank, 2 %>Student has trouble translating some basic vocabulary and/or is lacking in accuracy.
-				<br> 
-				<%= f.radio_button :rank, 3 %>Student is able to translate basic vocabulary
-				<br>
-				<%= f.radio_button :rank, 4 %>Student is able to translate basic vocabulary with a great deal of accuracy
-				<br>
-				<%= f.radio_button :rank, 5 %>Student is able to translate most, if not all of the vocabulary, and is able to use context clues and word parts to make educated guesses to previously unseen vocabulary.
-				<%=f.hidden_field :translation_id, value: @newtranslation.id%>
-				<%=f.hidden_field :user_id, value: @current_user.id%>
-				<%=f.submit%>
-			<%end%>
+			<div class='col-md-7'>
+			  	<% if @neworiginal.stuff.file != nil %>
+					<%if(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type[0..4] == "image") %>
+			  			<%= image_tag(@neworiginal.stuff)%>  
+					<%elsif(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type == "application/pdf") %>
+			  			<object data="<%= @neworiginal.stuff %>" type="application/pdf" width="500px" height="500px">
+			      			<embed src="<%= @neworiginal.stuff %>"> </embed>
+			  			</object>
+					<%else%>
+			  			<audio controls>
+			    			<source src="<%= @neworiginal.stuff %>" type="<%= MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type %>">
+			  			</audio>  
+					<%end%>       
+				<%end%>
+			</div>
+			<div class='col-md-5'>
+				<h2>Translation</h2>
+				<%=@newtranslation.translation%>
+			</div>
+			<div class='col-md-12'>
+				<%=form_for Ranking.new do |f|%>
+					<div class="radio">
+						<%= f.radio_button :rank, 1 %><b>1. Needs improvement:</b> Group is not able to translate basic vocabulary and/or is inaccurate. Almost no mastery of sentence construction rules, many errors, ideas not understood OR not enough to evaluate.
+					</div>
+					<div class="radio">
+						<%= f.radio_button :rank, 2 %><b>2. Fair:</b> Group Able to translate basic vocabulary. Major problems in simple/complex sentences, many errors, many errors of agreement, tense, number, word order, articles, pronouns, prepositions and/or fragments, and conjugating verbs, meaning confused or not understood.
+					</div>
+					<div class="radio"> 
+						<%= f.radio_button :rank, 3 %><b>3. Average to Good:</b> Able to translate basic vocabulary with a great deal of accuracy.  Simple sentence construction, minor problems in complex construction, several errors of agreement, tense, number, word order, articles, pronouns, prepositions and conjugating verbs, but meaning understood.
+					</div>
+					<div class="radio">
+						<%= f.radio_button :rank, 4 %><b>4. Very Good to Excellent:</b> Able to translate most, if not all of the vocabulary, and is able to use context clues and word parts to make educated guesses to previously unseen vocabulary. Few errors of agreement, tense, number, word order, articles, pronouns, prepositions and conjugating verbs.
+					</div>
+					<%=f.hidden_field :translation_id, value: @newtranslation.id%>
+					<%=f.hidden_field :user_id, value: @current_user.id%>
+					<%=f.submit class:'btn btn-primary'%>
+				<%end%>
+			</div>
 		<%end%>
 	<%else%>
 		<h1>There are no rankings to complete at this time</h1>
 		<%=link_to 'Go Home', assignments_path%>
 	<%end%>
+
 <%else%>
-	<h1><%=@translation.user.name%></h1>
-	<h1><%=@assignment.title%></h1>
-	<h1><%=@original.title%></h1>
-	<% if !@translation.nil?%>
-		<%=@translation.translation%>
-	<%end%>
-	<br>
-	<% if @original.stuff.file != nil %>
-		<%if(MimeMagic.by_magic(File.open(@original.stuff.current_path)).type[0..4] == "image") %>
-		  	<%= image_tag(@original.stuff)%>  
-		<%elsif(MimeMagic.by_magic(File.open(@original.stuff.current_path)).type == "application/pdf") %>
-		  	<object data="<%= @original.stuff %>" type="application/pdf" width="700px" height="700px">
-		      	<embed src="<%= @original.stuff %>"> </embed>
-		  	</object>
-		<%else%>
-		  	<audio controls>
-		    	<source src="<%= @original.stuff %>" type="<%= MimeMagic.by_magic(File.open(@original.stuff.current_path)).type %>">
-		  	</audio>  
-		<%end%>       
-	<%end%>
-	Average Rank: <%=@translation.rankings.average(:rank)%>
-	<% if Submission.where(translation_id: @translation.id).exists? %>
-		<%@submission = Submission.where(translation_id: @translation.id).first%>
-	<%else%>
-		<%@submission = Submission.new%>
-	<%end%>
-	<%=form_for @submission do |f|%>
-		<%= f.text_area :grade, :cols => 2, :rows => 2%>
-		<%=f.hidden_field :assignment_id, value: @assignment.id%>
-		<%=f.hidden_field :original_id, value: @original.id%>
-		<%=f.hidden_field :user_id, value: @translation.user.id%>
-		<%=f.hidden_field :translation_id, value: @translation.id%>
-		<%=f.submit "Grade Submission"%>
-	<%end%>
+		<h1><%=@assignment.title%> - <%=@translation.user.name%></h1>
+		<h3>Translation</h3>
+		<div class='col-md-6'>
+			<% if !@translation.nil?%>
+				<% if @original.language = "English to Hebrew"%>
+					<div class= 'well well-lg view' style="text-align:right">
+						<%=@translation.translation%>
+					</div>
+				<%else%>
+					<div class= 'well well-lg view'>
+						<%=@translation.translation%>
+					</div>
+				<%end%>
+				<br><label>Average Rank: <%=@translation.rankings.average(:rank)%></label><br>
+				<%@translation.rankings.each do |rank| %>
+					<%=User.all.find(rank.user_id).name%>'s rank:
+					<%=rank.rank%>
+					<br>
+				<%end%>
+			<%end%>
+		</div>
+		<div class='col-md-6'>
+			<% if @original.stuff.file != nil %>
+				<%if(MimeMagic.by_magic(File.open(@original.stuff.current_path)).type[0..4] == "image") %>
+				  	<%= image_tag(@original.stuff)%>  
+				<%elsif(MimeMagic.by_magic(File.open(@original.stuff.current_path)).type == "application/pdf") %>
+				  	<object data="<%= @original.stuff %>" type="application/pdf" width="500" height="500">
+				      	<embed src="<%= @original.stuff %>"> </embed>
+				  	</object>
+				<%else%>
+				  	<audio controls>
+				    	<source src="<%= @original.stuff %>" type="<%= MimeMagic.by_magic(File.open(@original.stuff.current_path)).type %>">
+				  	</audio>  
+				<%end%>       
+			<%end%>
+		</div>
+		<div style='padding: 300px 0px'>
+			<% if Submission.where(translation_id: @translation.id).exists? %>
+				<%@submission = Submission.where(translation_id: @translation.id).first%>
+			<%else%>
+				<%@submission = Submission.new%>
+			<%end%>
+				<div class='form-group col-md-6'>
+					<%=form_for @submission do |f|%>
+						<div class="radio">
+						<%= f.radio_button :grade, 1 %><b>1. Needs improvement:</b> Group is not able to translate basic vocabulary and/or is inaccurate. Almost no mastery of sentence construction rules, many errors, ideas not understood OR not enough to evaluate.
+					</div>
+					<div class="radio">
+						<%= f.radio_button :grade, 2 %><b>2. Fair:</b> Group Able to translate basic vocabulary. Major problems in simple/complex sentences, many errors, many errors of agreement, tense, number, word order, articles, pronouns, prepositions and/or fragments, and conjugating verbs, meaning confused or not understood.
+					</div>
+					<div class="radio"> 
+						<%= f.radio_button :grade, 3 %><b>3. Average to Good:</b> Able to translate basic vocabulary with a great deal of accuracy.  Simple sentence construction, minor problems in complex construction, several errors of agreement, tense, number, word order, articles, pronouns, prepositions and conjugating verbs, but meaning understood.
+					</div>
+					<div class="radio">
+						<%= f.radio_button :grade, 4 %><b>4. Very Good to Excellent:</b> Able to translate most, if not all of the vocabulary, and is able to use context clues and word parts to make educated guesses to previously unseen vocabulary. Few errors of agreement, tense, number, word order, articles, pronouns, prepositions and conjugating verbs.
+					</div>
+						<%=f.hidden_field :assignment_id, value: @assignment.id%>
+						<%=f.hidden_field :original_id, value: @original.id%>
+						<%=f.hidden_field :user_id, value: @translation.user.id%>
+						<%=f.hidden_field :translation_id, value: @translation.id%>
+						<%=f.submit "Grade Submission", class:'btn btn-primary'%>
+					<%end%>
+				</div>
+		</div>
 <%end%>

@@ -28,6 +28,17 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
+    @assignment = Assignment.find(params[:id])
+    @groups = Group.where(assignment_id: @assignment.id)
+    @originals = Original.where(assignment_id: @assignment.id)
+  end
+
+  def update_groups
+    params[:content].each do |id, value|
+      Group.find(id).update({content: value})
+    end
+
+    redirect_to assignments_path, :flash=>{:notice=>"Groups have been saved."}
   end
 
   # POST /groups
@@ -78,6 +89,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the spooky internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:assignment_id, :user_ids => [], :originals => [])
+      params.require(:group).permit(:title, :assignment_id, :user_ids => [], :originals => [], originals_attributes: [:id, :title, :upload, :assignment_id, :language, :group_id, :stuff])
     end
 end

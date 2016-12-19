@@ -59,12 +59,12 @@ var VKI_attach, VKI_close;
   var self = this;
 
   this.VKI_version = "1.49";
-  this.VKI_showVersion = true;
+  this.VKI_showVersion = false;
   this.VKI_target = false;
   this.VKI_shift = this.VKI_shiftlock = false;
   this.VKI_altgr = this.VKI_altgrlock = false;
   this.VKI_dead = false;
-  this.VKI_deadBox = true; // Show the dead keys checkbox
+  this.VKI_deadBox = false; // Show the dead keys checkbox
   this.VKI_deadkeysOn = false;  // Turn dead keys on by default
   this.VKI_numberPad = true;  // Allow user to open and close the number pad
   this.VKI_numberPadOn = false;  // Show number pad by default
