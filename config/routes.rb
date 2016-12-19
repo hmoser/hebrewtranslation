@@ -14,5 +14,5 @@ Rails.application.routes.draw do
   
   root 'assignments#index'
   get '/gradebook', to: 'submissions#gradebook', as: 'gradebook'
-  post '/groups/:id/edit', to: 'groups#update_groups_path', as: 'update_groups'
+  post '/groups/:id/edit', to: 'groups#update_groups', as: 'update_groups'
 end
