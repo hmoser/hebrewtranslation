@@ -1,38 +1,20 @@
 <h1>Edit Groups</h1>
-<%= form_tag controller: "groups", action:"update_groups" do %>
+<%= form_tag(update_groups_url, :id => params[:id], :method => 'post') do %>
 
-<%@groups.each do |group|%>
-	<div class='form-group'>
-		<% group.users.each do |student| %>
-			<%= label_tag student.name, label, class='control-label'%>
-			<%= select_tag 'group_id', options_for_select(@groups.collect{ |g| [g.title, g.id]}, :selected => student.group_id) %> 
-		<%end%>
-		<%= label_tag @originals.where(group_id: group.id).first.title, label, class='control-label'%>
-		<%fields_for @originals.where(group_id: group.id).first do |o| %>
-			<%= select_tag 'group_id', options_for_select(@groups.collect{ |g| [g.title, g.id]}, :selected => o.group_id) %>
-		<%end%>
-	</div>
-	<div class='form-group'>
-    	<%= submit_tag "Save", class:'btn btn-primary' %>
-    </div>
+	<%@groups.each do |group|%>
+		<div class='form-group'>
+			<% group.users.each do |student| %>
+				<%= label_tag student.name, student.id, class: 'control-label'%>
+				<%= select_tag 'group_id', options_for_select(@groups.collect{ |g| [g.title, g.id]})%> 
+			<%end%>
+			<%= label_tag @originals.where(group_id: group.id).first.title, @originals.where(group_id: group.id).first.id, class: 'control-label'%>
+			<%fields_for @originals.where(group_id: group.id).first do |o| %>
+				<%= select_tag 'group_id', options_for_select(@groups.collect{ |g| [g.title, g.id]}) %>
+			<%end%>
+		</div>
+		<div class='form-group'>
+	    	<%= submit_tag "Save", class:'btn btn-primary' %>
+	    </div>
+	<%end%>
 <%end%>
 
-<%= form_tag controller: "questions", action:"save_all" do %>
-
-      <% @questions.each do |question| %>
-        <%
-          if question.description_flag == 1
-            label = @assignment.description
-          else
-            label = @assignment["description_#{question.description_flag}"]
-          end
-          %>
-        <div class='form-group'>
-          <%= label_tag "content["+question.id.to_s+"]", label, class:'control-label' %>
-          <%= text_area_tag "content["+question.id.to_s+"]", question.content, :class=>"form-control", :rows=>4 %>
-        </div>
-      <% end %>
-      <div class='form-group'>
-        <%= submit_tag "Save", class:'btn btn-primary' %>
-      </div>
-    <%end%>

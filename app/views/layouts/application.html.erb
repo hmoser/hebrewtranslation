@@ -15,7 +15,7 @@
 	      <div class="navbar-header">
 	        <%= link_to "Hebrew Translation", assignments_path, class:'navbar-brand' %>
 	      </div>
-	      <% if current_user.admin? %>
+	      <% if !current_user.nil? && current_user.admin? %>
 	      	<div>
 	      		<%= link_to "Assignments", assignments_path, class:'navbar-brand' %>
 	      		<%= link_to "Gradebook", gradebook_url, class:'navbar-brand' %>
