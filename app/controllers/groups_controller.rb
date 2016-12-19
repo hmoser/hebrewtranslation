@@ -34,13 +34,20 @@ class GroupsController < ApplicationController
   end
 
   def update_groups
-    params[:group_id].each do |student_id, group_id|
+    params[:student_group_id].each do |student_id, group_id|
       user = User.find(student_id)
       group = Group.find(group_id)
       user.groups.destroy_all
       group.users.push(user)
     end
-
+    params[:original_group_id].each do |original_id, group_id|
+      original = Original.find(original_id)
+      group = Group.find(group_id)
+      original.group_id = group_id
+      group.originals.destroy_all
+      group.originals.push(original)
+    end
+    
     redirect_to assignments_path, :flash=>{:notice=>"Groups have been saved."}
   end
 

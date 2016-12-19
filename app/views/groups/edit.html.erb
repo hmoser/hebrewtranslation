@@ -5,11 +5,11 @@
 		<div class='form-group'>
 			<% group.users.each do |student| %>
 				<%= label_tag student.id, student.name, class: 'control-label'%>
-				<%= select_tag "group_id[#{student.id}]", options_for_select(@groups.collect{ |g| [g.title, g.id]}, :selected=>group.id)%> 
+				<%= select_tag "student_group_id[#{student.id}]", options_for_select(@groups.collect{ |g| [g.title, g.id]}, :selected=>group.id)%> 
 			<%end%>
 			<% original = @originals.where(group_id: group.id).first %>
 			<%= label_tag original.id, original.title, class: 'control-label'%>
-			<%= select_tag "group_id[#{original.id}]", options_for_select(@groups.collect{ |g| [g.title, g.id]}, :selected=>group.id)%>
+			<%= select_tag "original_group_id[#{original.id}]", options_for_select(@groups.collect{ |g| [g.title, g.id]}, :selected=>group.id)%>
 		</div>
 	<%end%>
 	<div class='form-group'>
