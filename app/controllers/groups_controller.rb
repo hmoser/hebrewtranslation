@@ -34,7 +34,7 @@ class GroupsController < ApplicationController
   end
 
   def update_groups
-    params[:content].each do |id, value|
+    params[:group_id].each do |id, value|
       Group.find(id).update({content: value})
     end
 
