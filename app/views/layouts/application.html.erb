@@ -5,11 +5,11 @@
     <%= csrf_meta_tags %>
     <script type="text/javascript" src="keyboard.js" charset="UTF-8"></script>
 	<link rel="stylesheet" type="text/css" href="keyboard.css">
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
-  <body>
+  <body class='<%if controller.controller_name == "translations"%>translations <%elsif controller.controller_name == "assignments"%>assignments <%else%> submissions <%end%>'>
 	<nav class="navbar navbar-inverse navbar-static-top">
 	    <div class="container">
 	      <div class="navbar-header">
@@ -17,8 +17,8 @@
 	      </div>
 	      <% if !current_user.nil? && current_user.admin? %>
 	      	<div>
-	      		<%= link_to "Assignments", assignments_path, class:'navbar-brand' %>
-	      		<%= link_to "Gradebook", gradebook_url, class:'navbar-brand' %>
+	      		<%= link_to "Assignments", assignments_path, class:'navbar-brand id: assignments-id' %>
+	      		<%= link_to "Gradebook", gradebook_url, class:'navbar-brand id: gradebook-id' %>
 	      	</div>
 	      <%end%>
 	      <div id="navbar" class="navbar-collapse collapse">     
@@ -35,5 +35,10 @@
 	<div class = 'container'>
 	    <%= yield %>
 	</div>
+	<footer class="footer">
+      <div class="container">
+        <p class="text-muted">Please contact <a href='mailto:brandeisapprenticeship@gmail.com'>brandeisapprenticeship@gmail.com</a> with any questions</p>
+      </div>
+    </footer>
   </body>
 </html>

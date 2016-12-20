@@ -1,50 +1,61 @@
-<%if @students.empty?%>
+<% if !Submission.where(assignment_id: @assignment.id).empty? %>
   <center>
-    <h2>All students are  assigned a group for this assignment</h2>
-      <%=link_to 'Edit Groups', {:controller => "groups", :action => "edit", :id => @assignment.id}, class: "btn btn-primary"%>
-      <%=link_to 'Go Home', root_path, class: "btn btn-primary"%>
+    <h1>Students have already created submissions for this assignment. You may not edit groups now.</h1>
+    <%=link_to 'Go Home', root_path, class: "btn btn-primary"%>
   </center>
 <%else%>
-  <div class='page-header'>
-    <h1>Create Groups</h1>
-  </div>
-
-  <h2>Group <%=Group.where(assignment_id: @assignment.id).count + 1%></h2>
-  <%@group = Group.new%>
-    <%= form_for(@group) do |f| %>
-      <%=f.hidden_field :assignment_id, value: @assignment.id%>
-      <%=f.hidden_field :title, value: "Group " + (Group.where(assignment_id: @assignment.id).count + 1).to_s%>
-      <div class='col-md-4'>
-        <% @students.each do |user| %>
-        <div class="checkbox">
-          <%= check_box_tag :user_ids,
-                             user.id,
-                             @group.users.include?(user),
-                             name: 'group[user_ids][]' %>
-          <%= user.name %>
-        </div>
-        <%end%>
-      </div>
-
-    <div class='col-md-4'>
-      <%@originals.each do |original| %>
-          <%= radio_button_tag(:original, original.id) %>
-          <%= label_tag(:original, original.title) %>
-      <%end%>
-      <br><br><br>
-      <%=f.submit class:'btn btn-primary'%>
+  <% if @students.empty?%>
+    <center>
+      <h1>All students are  assigned a group for this assignment</h1>
+        <%=link_to 'Edit Groups', {:controller => "groups", :action => "edit", :id => @assignment.id}, class: "btn btn-primary"%>
+        <%=link_to 'Go Home', root_path, class: "btn btn-primary"%>
+    </center>
+  <%else%>
+    <div class='page-header'>
+      <h1>Create Groups</h1>
     </div>
 
-    <div class='col-md-4'>
-      <h2>Created Groups</h2>
-      <%@groups.each do |group| %>
-        <h4><%=group.title%>-<%=group.originals.first.title%></h4>
-        <%group.users.each do |s| %>
-          <%=s.name%>
+    <label>Group <%=Group.where(assignment_id: @assignment.id).count + 1%></label>
+    <%@group = Group.new%>
+      <%= form_for(@group) do |f| %>
+        <%=f.hidden_field :assignment_id, value: @assignment.id%>
+        <%=f.hidden_field :title, value: "Group " + (Group.where(assignment_id: @assignment.id).count + 1).to_s%>
+        <div class='col-md-4'>
+          <% @students.each do |user| %>
+          <div class="checkbox">
+            <%= check_box_tag :user_ids,
+                               user.id,
+                               @group.users.include?(user),
+                               name: 'group[user_ids][]' %>
+            <%= user.name %>
+          </div>
+          <%end%>
+        </div>
+
+      <div class='col-md-4'>
+        <label>Choose Translation</label><br>
+        <%@originals.each do |original| %>
+            <%= radio_button_tag(:original, original.id) %>
+            <%= label_tag(:original, original.title) %>
+            <br>
+        <%end%>
+        <br><br><br>
+        <%=f.submit class:'btn btn-primary'%>
+      </div>
+
+      <div class='col-md-4'>
+        <h1>Created Groups</h1>
+        <%@groups.each do |group| %>
+          <% if !group.nil? && !group.originals.first.nil?%>
+            <label><%=group.title%> - <%=group.originals.first.title%></label>
+            <%group.users.each do |s| %>
+              <%=s.name%>
+              <br>
+            <%end%>
+          <%end%>
           <br>
         <%end%>
-        <br>
-      <%end%>
+    <%end%>
   <%end%>
 <%end%>
 

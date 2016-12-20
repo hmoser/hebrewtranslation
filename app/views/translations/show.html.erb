@@ -2,19 +2,21 @@
 	<% if !@newtranslation.nil?%>
 		<% if !@neworiginal.nil? %>
 			<div class='col-md-7'>
-			  	<% if @neworiginal.stuff.file != nil %>
-					<%if(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type[0..4] == "image") %>
-			  			<%= image_tag(@neworiginal.stuff)%>  
-					<%elsif(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type == "application/pdf") %>
-			  			<object data="<%= @neworiginal.stuff %>" type="application/pdf" width="500px" height="500px">
-			      			<embed src="<%= @neworiginal.stuff %>"> </embed>
-			  			</object>
-					<%else%>
-			  			<audio controls>
-			    			<source src="<%= @neworiginal.stuff %>" type="<%= MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type %>">
-			  			</audio>  
-					<%end%>       
-				<%end%>
+				<center>
+				  	<% if @neworiginal.stuff.file != nil %>
+						<%if(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type[0..4] == "image") %>
+				  			<%= image_tag(@neworiginal.stuff)%>  
+						<%elsif(MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type == "application/pdf") %>
+				  			<object data="<%= @neworiginal.stuff %>" type="application/pdf" width="500px" height="500px">
+				      			<embed src="<%= @neworiginal.stuff %>"> </embed>
+				  			</object>
+						<%else%>
+				  			<audio controls>
+				    			<source src="<%= @neworiginal.stuff %>" type="<%= MimeMagic.by_magic(File.open(@neworiginal.stuff.current_path)).type %>">
+				  			</audio>  
+						<%end%>       
+					<%end%>
+				</center>
 			</div>
 			<div class='col-md-5'>
 				<h2>Translation</h2>
@@ -41,8 +43,10 @@
 			</div>
 		<%end%>
 	<%else%>
-		<h1>There are no rankings to complete at this time</h1>
-		<%=link_to 'Go Home', assignments_path%>
+		<center>
+			<h1>There are no rankings to complete at this time</h1>
+			<%=link_to 'Go Home', root_path, class: "btn btn-primary"%>
+		</center>
 	<%end%>
 
 <%else%>

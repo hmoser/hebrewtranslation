@@ -1,6 +1,9 @@
 <% if @group.nil? %>
-	<h1>You are not assigned a group for this assignment yet. Please come back later.</h1>
-<%else%>
+	<center>
+		<h1 align='center'>You are not assigned a group for this assignment yet. Please come back later.</h1>
+		<%=link_to 'Go Home', root_path, class: "btn btn-primary" %>
+	</center>
+	<%else%>
 	<div class='page-header'>
 	  <h2 align='center'>Read the text or listen to the audio and write a translation on the left</h2>
 	</div>

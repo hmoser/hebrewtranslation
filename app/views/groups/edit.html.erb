@@ -1,19 +1,27 @@
-<h1>Edit Groups</h1>
-<%= form_tag(update_groups_url, :id => params[:id], :method => 'post') do %>
+<div class='col-md-6'>
+	<h1 align='left'>Edit Groups</h1>
+	<%= form_tag(update_groups_url, :id => params[:id], :method => 'post') do %>
 
-	<%@groups.each do |group|%>
+		<%@groups.each do |group|%>
+			<div class='form-group'>
+				<% group.users.each do |student| %>
+					<%= label_tag student.id, student.name, class: 'control-label'%>
+					<%= select_tag "student_group_id[#{student.id}]", options_for_select(@groups.collect{ |g| [g.title, g.id]}, :selected=>group.id), class: 'selectpicker'%> 
+				<%end%>
+				<% original = @originals.where(group_id: group.id).first %>
+				<% if !@original.nil? %>
+					<%= original.title%>
+				<%end%>
+			</div>
+		<%end%>
 		<div class='form-group'>
-			<% group.users.each do |student| %>
-				<%= label_tag student.id, student.name, class: 'control-label'%>
-				<%= select_tag "student_group_id[#{student.id}]", options_for_select(@groups.collect{ |g| [g.title, g.id]}, :selected=>group.id)%> 
-			<%end%>
-			<% original = @originals.where(group_id: group.id).first %>
-			<%= label_tag original.id, original.title, class: 'control-label'%>
-			<%= select_tag "original_group_id[#{original.id}]", options_for_select(@groups.collect{ |g| [g.title, g.id]}, :selected=>group.id)%>
+		    <%= submit_tag "Save", class:'btn btn-primary' %>
 		</div>
 	<%end%>
-	<div class='form-group'>
-	    <%= submit_tag "Save", class:'btn btn-primary' %>
-	</div>
-<%end%>
-
+</div>
+<div class='col-md-6' align='center'>
+	<h1>Translations</h1>
+	<% @groups.each do |g|%>
+		<label justify='left'><%=g.title%> - <%=g.originals.first.title%></label><br>
+	<%end%>
+</div>

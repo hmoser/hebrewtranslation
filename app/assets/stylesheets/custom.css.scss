@@ -1,0 +1,111 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 80px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 70px;
+  background-color: #000;
+  border-top-style: solid;
+  border-top-width: 10px;
+  text-align: center;
+  background-color: #2F3034;
+}
+
+.footer p{
+	margin-top: 20px;
+}
+
+ .navbar{
+  border-bottom-style: solid;
+  border-bottom-width: 10px;
+  background-color: #2F3034;
+}
+
+.navbar .navbar-brand{
+	color: #FFF;
+}
+
+.assignments .footer {
+  border-top-color: #17A4A4;
+}
+
+.translations .footer{
+	border-top-color: #0277C9;
+}
+
+.submissions .footer{
+	border-top-color: #0CB5D5;
+}
+
+.assignments .navbar {
+  border-top-color: #17A4A4;
+  border-bottom-color: #17A4A4;
+}
+
+.translations .navbar{
+	border-top-color: #0277C9;
+	border-bottom-color: #0277C9;
+}
+
+.submissions .navbar{
+	border-top-color: #0CB5D5;
+	border-bottom-color: #0CB5D5;
+}
+
+.assignments .btn-primary {
+  @include button-variant($btn-primary-color, #17A4A4, darken(#17A4A4, 5%));
+}
+
+.translations .btn-primary {
+  @include button-variant($btn-primary-color, #0277C9, darken(#0277C9, 5%));
+}
+
+.submissions .btn-primary {
+  @include button-variant($btn-primary-color, #0CB5D5, darken(#0CB5D5, 5%));
+}
+
+.assignments a{
+	color: #17A4A4;
+}
+
+.translations a{
+	color: #0277C9;
+}
+
+.submissions a{
+	color: #0CB5D5;
+}
+
+.footer p, .footer p a{
+  color: #FFF;
+}
+
+.footer p a{
+  text-decoration: underline;
+}
+
+.assignments h1, h2, h3, h4 a{
+	color: #17A4A4;
+}
+
+.submissions h1, h2, h3, h4 a{
+	color: #0CB5D5;
+}
+
+.translations h1, h2, h3, h4 a{
+	color: #0277C9;
+}
+
+.center-div {
+    width: 90%;
+    margin: 0 auto; 
+}
