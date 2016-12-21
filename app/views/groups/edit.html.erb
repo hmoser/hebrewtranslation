@@ -1,4 +1,4 @@
-<div class='col-md-6'>
+<div class='col-md-7'>
 	<h1 align='left'>Edit Groups</h1>
 	<%= form_tag(update_groups_url, :id => params[:id], :method => 'post') do %>
 
@@ -19,7 +19,7 @@
 		</div>
 	<%end%>
 </div>
-<div class='col-md-6' align='center'>
+<div class='col-md-5' align='center'>
 	<h1>Translations</h1>
 	<% @groups.each do |g|%>
 		<label justify='left'><%=g.title%> - <%=g.originals.first.title%></label><br>
