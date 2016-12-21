@@ -33,7 +33,7 @@
             </td>
           <%end%>
           <td>
-            <%= assignment.due_date %>
+            <%= assignment.due_date.strftime("%A, %m/%d/%Y %I:%M%p") %>
           </td>
             <%if current_user.admin? %>
               <td>
@@ -60,8 +60,10 @@
       <%end%>
     </tbody>
   </table>
+
   <%if current_user.admin? %>
     <h1>Create New Assignment</h1>
+    <label>You must fill in all fields for each Translation you upload.</label><br><br>
     <% @assignment=Assignment.new %>
     <% @assignment.originals.build %>
     <% @assignment.originals.build %>
@@ -71,11 +73,8 @@
       <%=f.label :title %>
       <%=f.text_field :title %>
 
-      <%=f.datetime_local_field :due_date %>
+      <%=f.datetime_local_field :due_date %><br><br>
 
-      <br><br><br>
-
-      
       <%= f.fields_for :originals do |original_form| %>
       <div class='col-md-3'>
           <%= original_form.hidden_field :assignment_id, value: @assignment.id %>
