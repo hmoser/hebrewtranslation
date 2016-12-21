@@ -32,7 +32,7 @@ module SubmissionsHelper
 		@averages = 0.0
 		@count = 0.0
 		Assignment.all.each do |assignment|
-			if !avgRankGap(assignment.id, student_id) == 'N/A'
+			if avgRankGap(assignment.id, student_id) >= -4 && avgRankGap(assignment.id, student_id) <= 4
 				@averages = @averages + avgRankGap(assignment.id, student_id)
 				@count = @count + 1
 			end
