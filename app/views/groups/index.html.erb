@@ -15,39 +15,43 @@
       <h1>Create Groups</h1>
     </div>
 
-    <label>Group <%=Group.where(assignment_id: @assignment.id).count + 1%></label>
-    <%@group = Group.new%>
-      <%= form_for(@group) do |f| %>
-        <%=f.hidden_field :assignment_id, value: @assignment.id%>
-        <%=f.hidden_field :title, value: "Group " + (Group.where(assignment_id: @assignment.id).count + 1).to_s%>
-        <div class='col-md-4'>
+    <div class='col-md-6'>
+      <div class='col-md-6'>
+        <h1 align='left'>Group <%=Group.where(assignment_id: @assignment.id).count + 1%></h1>
+        <%@group = Group.new%>
+        <%= form_for(@group) do |f| %>
+          <%=f.hidden_field :assignment_id, value: @assignment.id%>
+          <%=f.hidden_field :title, value: "Group " + (Group.where(assignment_id: @assignment.id).count + 1).to_s%>
           <% @students.each do |user| %>
           <div class="checkbox">
             <%= check_box_tag :user_ids,
-                               user.id,
-                               @group.users.include?(user),
-                               name: 'group[user_ids][]' %>
+                              user.id,
+                              @group.users.include?(user),
+                              name: 'group[user_ids][]' %>
             <%= user.name %>
           </div>
           <%end%>
-        </div>
-
-      <div class='col-md-4'>
-        <label>Choose Translation</label><br>
-        <%@originals.each do |original| %>
-            <%= radio_button_tag(:original, original.id) %>
-            <%= label_tag(:original, original.title) %>
-            <br>
-        <%end%>
-        <br><br><br>
-        <%=f.submit class:'btn btn-primary'%>
       </div>
 
-      <div class='col-md-4'>
-        <h1>Created Groups</h1>
+      <div class='col-md-6'>
+        <h1 align='left'>Choose Translation</h1>
+        <%@originals.each do |original| %>
+          <%= radio_button_tag(:original, original.id) %>
+          <%= label_tag(:original, original.title) %>
+          <br>
+        <%end%>
+        <br><br>
+        <%=f.submit class:'btn btn-primary'%>
+      </div>
+      <%end%>
+    </div>
+
+    <div class='col-md-6 center'>
+      <center>
+        <h1 align='center'>Created Groups</h1>
         <%@groups.each do |group| %>
           <% if !group.nil? && !group.originals.first.nil?%>
-            <label><%=group.title%> - <%=group.originals.first.title%></label>
+            <label><%=group.title%> - <%=group.originals.first.title%></label><br>
             <%group.users.each do |s| %>
               <%=s.name%>
               <br>
@@ -55,7 +59,8 @@
           <%end%>
           <br>
         <%end%>
-    <%end%>
+      </center>
+    </div>
   <%end%>
 <%end%>
 
