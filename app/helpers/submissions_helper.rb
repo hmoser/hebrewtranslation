@@ -8,7 +8,7 @@ module SubmissionsHelper
 		if @rankings.count == 0.0
 			return 'N/A'
 		else
-		return @sumDif/@rankings.count
+		return (@sumDif/@rankings.count).round(2)
 	end
 	end
 
@@ -24,7 +24,7 @@ module SubmissionsHelper
 		if @count == 0
 			return 'N/A'
 		else 
-			return @grade/@count
+			return @grade/@count.round(2)
 		end
 	end
 
@@ -32,15 +32,15 @@ module SubmissionsHelper
 		@averages = 0.0
 		@count = 0.0
 		Assignment.all.each do |assignment|
-			if avgRankGap(assignment.id, student_id) >= -4 && avgRankGap(assignment.id, student_id) <= 4
-				@averages = @averages + avgRankGap(assignment.id, student_id)
+			if avgRankGap(assignment.id, student_id).to_f >= -4 && avgRankGap(assignment.id, student_id).to_f <= 4
+				@averages = @averages + avgRankGap(assignment.id, student_id).to_f
 				@count = @count + 1
 			end
 		end
 		if @count == 0.0
 			return 'N/A'
 		else 
-			return @averages/@count
+			return @averages/@count.round(2)
 		end
 	end
 end
