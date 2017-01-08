@@ -73,28 +73,29 @@
       <%=f.label :title %>
       <%=f.text_field :title %>
 
+      <%=f.label :due_date %>
       <%=f.datetime_local_field :due_date %><br><br>
-
+    
       <%= f.fields_for :originals do |original_form| %>
       <div class='col-md-3'>
           <%= original_form.hidden_field :assignment_id, value: @assignment.id %>
           <%= original_form.label :originals, 'Translation Title' %>
-          <%= original_form.text_field :title %>
-          <%= original_form.file_field :stuff %>
+          <%= original_form.text_field :title, :required => 'required' %>
+          <%= original_form.file_field :stuff, :required => 'required' %>
 
           <br>
           <div class="radio">
-            <%= original_form.radio_button :language, 'Hebrew to English' %>Hebrew to English
+            <%= original_form.radio_button :language, 'Hebrew to English', :required => 'required' %>Hebrew to English
           </div>
           <br>
           <div class="radio">
-            <%= original_form.radio_button :language, 'English to Hebrew' %>English to Hebrew
+            <%= original_form.radio_button :language, 'English to Hebrew', :required => 'required' %>English to Hebrew
           </div>
           <br>
-          </div>
-        <%end%>
-        <div style='padding: 150px 0px'>
-          <%= f.submit class:'btn btn-primary'%>
-        </div>
+      </div>
+      <%end%>
+      <div style='padding: 150px 0px'>
+        <%= f.submit class:'btn btn-primary'%>
+      </div>
     <%end%>
   <%end%>

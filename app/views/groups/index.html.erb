@@ -15,11 +15,11 @@
       <h1>Create Groups</h1>
     </div>
 
-    <div class='col-md-6'>
+  <%@group = Group.new%>
+  <%= form_for(@group) do |f| %>
       <div class='col-md-6'>
-        <h1 align='left'>Group <%=Group.where(assignment_id: @assignment.id).count + 1%></h1>
-        <%@group = Group.new%>
-        <%= form_for(@group) do |f| %>
+      <div class='col-md-6'>
+      <h1 align='left'>Group <%=Group.where(assignment_id: @assignment.id).count + 1%></h1>
           <%=f.hidden_field :assignment_id, value: @assignment.id%>
           <%=f.hidden_field :title, value: "Group " + (Group.where(assignment_id: @assignment.id).count + 1).to_s%>
           <% @students.each do |user| %>
@@ -30,21 +30,21 @@
                               name: 'group[user_ids][]' %>
             <%= user.name %>
           </div>
-          <%end%>
+        <%end%>
       </div>
 
       <div class='col-md-6'>
         <h1 align='left'>Choose Translation</h1>
         <%@originals.each do |original| %>
-          <%= radio_button_tag(:original, original.id) %>
+          <%= radio_button_tag(:original, original.id, required: 'required') %>
           <%= label_tag(:original, original.title) %>
           <br>
         <%end%>
         <br><br>
         <%=f.submit class:'btn btn-primary'%>
       </div>
-      <%end%>
     </div>
+  <%end%>
 
     <div class='col-md-6 center'>
       <center>
@@ -61,8 +61,7 @@
         <%end%>
       </center>
   <%end%>
-      </div>
-
+</div>
 <%end%>
 
 
