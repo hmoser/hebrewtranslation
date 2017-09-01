@@ -1,4 +1,4 @@
-<% if !Submission.where(assignment_id: @assignment.id).nil? %>
+<% if Submission.where(assignment_id: @assignment.id).exists? %>
   <center>
     <h1>Students have already created submissions for this assignment. You may not edit groups now.</h1>
     <%=link_to 'Go Home', root_path, class: "btn btn-primary"%>
